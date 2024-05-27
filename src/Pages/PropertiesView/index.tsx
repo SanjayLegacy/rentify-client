@@ -107,10 +107,15 @@ export default function PropertiesView() {
     if (allProperties && allProperties.length > 0) {
       const options: OptionsType[] = [{ value: "", label: "Select" }];
       allProperties.forEach((property) => {
-        options.push({
-          value: property.place.toLowerCase(),
-          label: property.place,
-        });
+        if (
+          options.filter((opt) => opt.value === property.place.toLowerCase())
+            .length === 0
+        ) {
+          options.push({
+            value: property.place.toLowerCase(),
+            label: property.place,
+          });
+        }
       });
 
       return options;
@@ -124,10 +129,15 @@ export default function PropertiesView() {
       const options: OptionsType[] = [{ value: "", label: "Select" }];
 
       allProperties.forEach((property) => {
-        options.push({
-          value: property.area.toLowerCase(),
-          label: property.area,
-        });
+        if (
+          options.filter((opt) => opt.value === property.area.toLowerCase())
+            .length === 0
+        ) {
+          options.push({
+            value: property.area.toLowerCase(),
+            label: property.area,
+          });
+        }
       });
 
       return options;
