@@ -34,4 +34,17 @@ Server
 - Test the connection
 - yarn start
 
-Runs in the port 3001
+Runs in the port 8080
+
+Hosted in Vercel
+https://rentify-client-lake.vercel.app/
+
+Credentials
+
+Buyer
+demo.buyer
+Buyer@123
+
+Seller
+demo.seller
+Seller@123
