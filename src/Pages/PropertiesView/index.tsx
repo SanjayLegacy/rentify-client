@@ -266,8 +266,8 @@ export default function PropertiesView() {
             cloneDeep(propertiesList)
               .sort(
                 (a, b) =>
-                  new Date(a.createdAt).getTime() -
-                  new Date(b.createdAt).getTime()
+                  new Date(b.createdAt).getTime() -
+                  new Date(a.createdAt).getTime()
               )
               .map((data: Property, idx: number) => {
                 return (

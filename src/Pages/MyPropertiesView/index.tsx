@@ -4,6 +4,7 @@ import { getCurrentUser } from "../../store/reducer/userReducer";
 import { useNavigate } from "react-router-dom";
 import { usePropertyHooks } from "../../hooks/PropertyHooks";
 import PropertyCard from "../PropertiesView/card";
+import { cloneDeep } from "lodash";
 
 export default function MyPropertiesView() {
   const navigate = useNavigate();
@@ -29,15 +30,21 @@ export default function MyPropertiesView() {
       {propertiesList && propertiesList.length > 0 ? (
         <div className="grid md:grid-cols-4 gap-4">
           {React.Children.toArray(
-            propertiesList?.map((data: Property, idx: number) => {
-              return (
-                <PropertyCard
-                  cardData={data}
-                  key={idx}
-                  fromProperties={false}
-                />
-              );
-            })
+            cloneDeep(propertiesList)
+              .sort(
+                (a, b) =>
+                  new Date(b.createdAt).getTime() -
+                  new Date(a.createdAt).getTime()
+              )
+              .map((data: Property, idx: number) => {
+                return (
+                  <PropertyCard
+                    cardData={data}
+                    key={idx}
+                    fromProperties={false}
+                  />
+                );
+              })
           )}
         </div>
       ) : (
