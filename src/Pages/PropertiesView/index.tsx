@@ -1,18 +1,19 @@
-import React, { useEffect, useMemo, useState } from "react";
 import { PlusIcon } from "@heroicons/react/24/solid";
+import { cloneDeep } from "lodash";
+import React, { useEffect, useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Modal from "../../components/Modal";
+import { usePropertyHooks } from "../../hooks/PropertyHooks";
+import { useCreatePropertyMutation } from "../../services/propertyApi";
+import { getCurrentUser } from "../../store/reducer/userReducer";
 import {
   NewPropertyFormInputs,
   OptionsType,
   UserRole,
 } from "../../types/types";
-import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
-import { getCurrentUser } from "../../store/reducer/userReducer";
-import { useNavigate } from "react-router-dom";
 import PropertyCard from "./card";
-import { usePropertyHooks } from "../../hooks/PropertyHooks";
-import { useCreatePropertyMutation } from "../../services/propertyApi";
 
 export default function PropertiesView() {
   const navigate = useNavigate();
@@ -221,6 +222,7 @@ export default function PropertiesView() {
 
             {filter === "price" && (
               <div className="flex flex-row items-center gap-x-1">
+                Min
                 <input
                   type="number"
                   min={0}
@@ -229,6 +231,7 @@ export default function PropertiesView() {
                   value={minPrice}
                   onChange={(e) => setMinPrice(Number(e.target.value))}
                 />
+                Max
                 <input
                   type="number"
                   min={0}
@@ -260,11 +263,21 @@ export default function PropertiesView() {
       {propertiesList && propertiesList.length > 0 ? (
         <div className="grid md:grid-cols-4 gap-4">
           {React.Children.toArray(
-            propertiesList?.map((data: Property, idx: number) => {
-              return (
-                <PropertyCard cardData={data} key={idx} fromProperties={true} />
-              );
-            })
+            cloneDeep(propertiesList)
+              .sort(
+                (a, b) =>
+                  new Date(a.createdAt).getTime() -
+                  new Date(b.createdAt).getTime()
+              )
+              .map((data: Property, idx: number) => {
+                return (
+                  <PropertyCard
+                    cardData={data}
+                    key={idx}
+                    fromProperties={true}
+                  />
+                );
+              })
           )}
         </div>
       ) : (

@@ -8,9 +8,7 @@ import {
   useUpdatePropertyMutation,
 } from "../../services/propertyApi";
 import { dateTimeFormat } from "../../utils/dateTimeFormat";
-import { getCurrentUser } from "../../store/reducer/userReducer";
-import { useSelector } from "react-redux";
-import { NewPropertyFormInputs, UserRole } from "../../types/types";
+import { NewPropertyFormInputs } from "../../types/types";
 import { useForm } from "react-hook-form";
 
 interface PropertyCardProps {
@@ -32,8 +30,6 @@ export default function PropertyCard(props: PropertyCardProps) {
     defaultValues: cardData,
   });
 
-  const currentUser = useSelector(getCurrentUser);
-
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showFormModal, setShowFormModal] = useState<boolean>(false);
 
@@ -43,9 +39,7 @@ export default function PropertyCard(props: PropertyCardProps) {
   const [updateProperty] = useUpdatePropertyMutation();
 
   const toggleLike = () => {
-    if (currentUser?.role === UserRole.BUYER) {
-      likeProperty(cardData.id).unwrap();
-    }
+    likeProperty(cardData.id).unwrap();
   };
 
   const handleUpdatePropertyFormSubmit = (data: NewPropertyFormInputs) => {

@@ -55,9 +55,14 @@ export default function NavBar() {
                   {currentUser?.lastName[1]}
                 </div>
 
-                <span className="text-sm font-medium">
-                  {currentUser?.firstName} {currentUser?.lastName}
-                </span>
+                <div className="flex flex-col items-start">
+                  <span className="text-sm font-medium">
+                    {currentUser?.firstName} {currentUser?.lastName}
+                  </span>
+                  <span className="text-sm font-medium capitalize text-neutral-400">
+                    {currentUser?.role}
+                  </span>
+                </div>
 
                 {!showDropdown ? (
                   <ChevronDownIcon className="h-6 w-6 text-black" />
@@ -72,7 +77,10 @@ export default function NavBar() {
                     {currentUser?.role === UserRole.SELLER && (
                       <li>
                         <button
-                          onClick={() => navigate("/myProperties")}
+                          onClick={() => {
+                            setShowDropdown(false);
+                            navigate("/myProperties");
+                          }}
                           className="block py-2 px-4 text-sm hover:bg-gray-100 w-full text-left"
                         >
                           My Properties
